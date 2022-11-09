@@ -44,6 +44,8 @@ const UserSignUp = (props) =>{
         e.preventDefault();
         const user = {firstName, lastName, password, emailAddress: email}
         const httpResponse = await httpMethods.createUser(user);
+        
+        console.log(httpResponse);
 
         if(httpResponse.status === 400){
             let json = await httpResponse.json();
@@ -51,8 +53,7 @@ const UserSignUp = (props) =>{
         } else if(httpResponse.status === 500){
             setErrors({error: ["Internal Server Error"]})
         }else{
-            const authorized = props.signIn(email, password);
-
+            const authorized = await props.signIn(email, password)
             if(authorized === null){
                 navigate('/');
             }else{
